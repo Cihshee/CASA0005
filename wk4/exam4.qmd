@@ -1,0 +1,12 @@
+---
+title: "Exam4"
+output: html_document
+author: Yiyao Cui
+date: now
+---
+
+## a
+```{r}
+
+```
+
