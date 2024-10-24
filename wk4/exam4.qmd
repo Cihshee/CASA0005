@@ -5,8 +5,69 @@ author: Yiyao Cui
 date: now
 ---
 
-## a
+## read .geojson and .csv
 ```{r}
+library(sf)
+library(here)
+library(readr)
+
+# here::here()
+world_outline <- st_read(here("wk4", "World_Countries_(Generalized)_9029012925078512962.geojson"))
+
+gender_data <- read_csv(here("wk4", "gender_inequality_index.csv"))
+
+plot(world_outline)
+
+# 读取文件头以及前五行
+head(gender_data, 5)
+head(world_outline, 5)
+
+# 使用 na.omit() 过滤掉所有含有 NA 的行
+filtered_gender_data <- na.omit(gender_data)
+
+# 查看过滤后的数据
+head(filtered_gender_data)
+```
+## 处理数据，找到2010和2019的index
+```{r}
+library(dplyr)
+
+# 选择国家代码列、index列
+gender_2010 <- filtered_gender_data %>% select(iso3, gii_2010)
+gender_2019 <- filtered_gender_data %>% select(iso3, gii_2019)
+
+# 合并2010年和2019年的性别不平等数据
+gender_diff <- gender_2010 %>%
+  left_join(gender_2019, by = "iso3") %>% 
+  mutate(diff_2010_2019 = gii_2019 - gii_2010)
+
+head(gender_diff)
+```
+## 将gender_diff里面的iso3转化为两位字母的ISO代码，保证与空间数据中的ISO代码格式一致
+```{r}
+library(countrycode)
+
+gender_diff <- gender_diff %>%
+  mutate(iso2 = countrycode(iso3, "iso3c", "iso2c"))  # iso3c: 三位代码，iso2c: 两位代码
+
+```
+
+## 将性别不平等指数加入到空间数据中
+```{r}
+
+world_gender <- world_outline %>%
+  left_join(gender_diff, by = c("ISO" = "iso2"))
+
+head(world_gender)
+
+# 检查 diff_2010_2019 列的统计
+summary(world_gender$diff_2010_2019)
+
+# 找出 NA 的行
+na_rows <- world_gender %>% filter(is.na(diff_2010_2019))
+print(na_rows)
+
+plot(world_gender["diff_2010_2019"], main = "Gender Inequality Difference (2010-2019)")
 
 ```
 
