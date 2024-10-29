@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Yiyao Cui">
-<meta name="dcterms.date" content="2024-10-24">
+<meta name="dcterms.date" content="2024-10-29">
 
 <title>Exam4</title>
 <style>
@@ -98,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2024</p>
+      <p class="date">October 29, 2024</p>
     </div>
   </div>
   
@@ -240,17 +240,22 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gender_2019, <span class="at">by =</span> <span class="st">"iso3"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff_2010_2019 =</span> gii_2019 <span class="sc">-</span> gii_2010)</span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gender_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gender_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 4
-  iso3  gii_2010 gii_2019 diff_2010_2019
-  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
-1 ARG      0.372    0.291        -0.081 
-2 BHS      0.369    0.335        -0.0340
-3 BGD      0.602    0.521        -0.0810
-4 BRB      0.35     0.309        -0.0410
-5 BEN      0.636    0.652         0.0160
-6 BWA      0.502    0.458        -0.044 </code></pre>
+<pre><code># A tibble: 43 × 4
+   iso3  gii_2010 gii_2019 diff_2010_2019
+   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+ 1 ARG      0.372    0.291        -0.081 
+ 2 BHS      0.369    0.335        -0.0340
+ 3 BGD      0.602    0.521        -0.0810
+ 4 BRB      0.35     0.309        -0.0410
+ 5 BEN      0.636    0.652         0.0160
+ 6 BWA      0.502    0.458        -0.044 
+ 7 BRA      0.448    0.396        -0.052 
+ 8 CHL      0.351    0.214        -0.137 
+ 9 DOM      0.488    0.448        -0.0400
+10 ECU      0.431    0.387        -0.044 
+# ℹ 33 more rows</code></pre>
 </div>
 </div>
 </section>

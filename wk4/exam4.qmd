@@ -23,25 +23,28 @@ head(gender_data, 5)
 head(world_outline, 5)
 
 # 使用 na.omit() 过滤掉所有含有 NA 的行
-filtered_gender_data <- na.omit(gender_data)
+# filtered_gender_data <- na.omit(gender_data)
 
 # 查看过滤后的数据
-head(filtered_gender_data)
+# head(filtered_gender_data)
 ```
 ## 处理数据，找到2010和2019的index
 ```{r}
 library(dplyr)
 
 # 选择国家代码列、index列
-gender_2010 <- filtered_gender_data %>% select(iso3, gii_2010)
-gender_2019 <- filtered_gender_data %>% select(iso3, gii_2019)
+gender_2010 <- gender_data %>% select(iso3, gii_2010)
+gender_2019 <- gender_data %>% select(iso3, gii_2019)
 
 # 合并2010年和2019年的性别不平等数据
 gender_diff <- gender_2010 %>%
   left_join(gender_2019, by = "iso3") %>% 
   mutate(diff_2010_2019 = gii_2019 - gii_2010)
 
-head(gender_diff)
+# 使用 na.omit() 过滤掉所有含有 NA 的行
+filtered_gender_diff <- na.omit(gender_diff)
+
+print(filtered_gender_diff)
 ```
 ## 将gender_diff里面的iso3转化为两位字母的ISO代码，保证与空间数据中的ISO代码格式一致
 ```{r}
@@ -67,7 +70,20 @@ summary(world_gender$diff_2010_2019)
 na_rows <- world_gender %>% filter(is.na(diff_2010_2019))
 print(na_rows)
 
-plot(world_gender["diff_2010_2019"], main = "Gender Inequality Difference (2010-2019)")
+# 使用plot绘图
+# plot(world_gender["diff_2010_2019"], main = "Gender Inequality Difference (2010-2019)")
+
+# 加载 ggplot2
+library(ggplot2)
+
+# 使用 ggplot2 绘制地图，并设置渐变颜色
+ggplot(data = world_gender) +
+  geom_sf(aes(fill = diff_2010_2019)) +  # 用 diff_2010_2019 列填充颜色
+  scale_fill_gradient(low = "darkblue", high = "lightblue", na.value = "grey95", name = "Inequality\nDifference") +  # 设置渐变色
+  labs(title = "Gender Inequality Difference (2010-2019)") +  # 添加标题
+  theme_minimal() +  # 使用简洁主题
+  theme(legend.position = "right")  # 设置图例位置
+
 
 ```
 
